@@ -1,0 +1,68 @@
+{
+  "projectType": "saas",
+  "projectName": "NRW Systems",
+  "projectDescription": "Ein Discord-Bot und Web-Dashboard für Roleplay-Server — mit Moderation, Schichten, Teamlisten und mehr in einer Oberfläche.",
+  "theme": "luma",
+  "primaryColor": "#5865F2",
+  "lightColor": null,
+  "darkColor": "#1a1a2e",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Dokumentation",
+        "groups": [
+          {
+            "group": "Erste Schritte",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "dashboard"
+            ]
+          },
+          {
+            "group": "Module",
+            "pages": [
+              "modules/sanktionen",
+              "modules/schichten",
+              "modules/teamlisten",
+              "modules/fahrzeuge",
+              "modules/welcomer",
+              "modules/entbannungen"
+            ]
+          },
+          {
+            "group": "Dashboard",
+            "pages": [
+              "dashboard/nutzereinstellungen",
+              "dashboard/server-verwaltung",
+              "dashboard/statistiken"
+            ]
+          },
+          {
+            "group": "Sicherheit & Rechtliches",
+            "pages": [
+              "legal/datenschutz",
+              "legal/nutzungsbedingungen"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Sanktions-System mit Warns, Kicks und Bans inklusive Logging",
+    "Schicht-System mit Dienststart/-ende per Discord und Statistiken",
+    "Fahrzeug-Automenü mit Kennzeichen- und Fahrzeugverwaltung",
+    "Automatische Teamlisten mit Rollenanzeige und Online-Status",
+    "Welcomer mit konfigurierbaren Willkommens- und Abschiedsnachrichten",
+    "Entbannungssystem basierend auf den Cases des Sanktions-Systems",
+    "Web-Dashboard mit Farbthemen, Dichte und Schriftgröße",
+    "Sicherheitsschutz via Cloudflare Turnstile, Rate-Limits und CSRF"
+  ],
+  "publicApiSurface": [
+    "!setup — Modul-Setup-Befehl im Discord",
+    "Dienststart / Dienstende — Schicht-Befehle per Discord",
+    "Dashboard Web-Interface — systems.nrw-roleplay.de",
+    "REST API — ca. 17.000 API-Anfragen (öffentliche Statistik)"
+  ]
+}

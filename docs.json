@@ -1,0 +1,96 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "NRW Systems",
+  "theme": "maple",
+  "favicon": "https://icons.duckduckgo.com/ip3/systems.nrw-roleplay.de.ico",
+  "colors": {
+    "primary": "#5865F2",
+    "dark": "#1a1a2e"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Dokumentation",
+        "groups": [
+          {
+            "group": "Allgemeines",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "dashboard",
+              "faq"
+            ]
+          },
+          {
+            "group": "Module und Features",
+            "pages": [
+              "modules/sanktionen",
+              "modules/schichten",
+              "modules/teamlisten",
+              "modules/fahrzeuge",
+              "modules/welcomer",
+              "modules/entbannungen",
+              "modules/personensystem",
+              "modules/roleplay-management",
+              "modules/verifikation"
+            ]
+          },
+          {
+            "group": "Dashboard",
+            "pages": [
+              "dashboard/nutzereinstellungen",
+              "dashboard/server-verwaltung",
+              "dashboard/statistiken"
+            ]
+          },
+          {
+            "group": "Supportserver",
+            "pages": [
+              "pro-features",
+              "partnerschaft",
+              "tester-werden"
+            ],
+            "expanded": true
+          },
+          {
+            "group": "API - Beta Phase",
+            "pages": [
+              "anleitung"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://discord.gg/zQGMKcPqqy"
+    },
+    "links": []
+  },
+  "description": "Willkommen in der offiziellen Dokumentation von NRW Systems. Hier findest du Anleitungen zu unserem Bot und allgemeine Informationen.",
+  "appearance": {
+    "strict": false,
+    "default": "dark"
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "search": {
+    "prompt": "Suche nach einem Stichwort oder Artikel"
+  },
+  "seo": {
+    "indexing": "all"
+  },
+  "errors": {
+    "404": {
+      "title": "Seite nicht gefunden",
+      "description": "Die Seite nach der du suchst/die du aufgerufen hast, existiert nicht.",
+      "redirect": false
+    }
+  },
+  "interaction": {
+    "drilldown": true
+  }
+}

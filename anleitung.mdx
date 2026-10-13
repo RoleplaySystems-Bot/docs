@@ -1,0 +1,117 @@
+---
+title: "Public API"
+description: "Datenabruf für externe Anwendungen und Drittanbieter über die Read-Only API."
+---
+
+Die Public API ermöglicht es Drittanbietern, Discord-Bots oder eigenen Web-Anwendungen, sicher und performant auf öffentliche Daten des NRW Roleplay Systems zuzugreifen. Der Zugriff erfolgt rein lesend und ist durch ein striktes Rate-Limiting geschützt.
+
+## Authentifizierung
+
+Um die API nutzen zu können, benötigst du einen gültigen API-Key. Dieser wird dir von der Projektleitung zugewiesen.
+
+<Steps>
+  <Step title="API-Key erhalten">
+    Fordere deinen Key für dein Projekt an. Jeder Key ist einem festen Client (z. B. "Discord Bot") zugewiesen.
+  </Step>
+  <Step title="Request autorisieren">
+    Sende deinen Key bei jeder Anfrage im Header mit.
+    
+    ```http
+    X-API-KEY: nrw_live_deinkey
+    ```
+  </Step>
+  <Step title="Daten empfangen">
+    Die API antwortet im standardisierten, UTF-8 kodierten JSON-Format.
+  </Step>
+</Steps>
+
+<Note>
+  Alternativ kann der Key auch über den Query-Parameter `?key=DEIN_KEY` übergeben werden. Wir empfehlen jedoch aus Sicherheitsgründen die Verwendung des Headers.
+</Note>
+
+## Endpunkte und Abfragen
+
+Die Basis-URL für alle Anfragen lautet: `https://systems.nrw-roleplay.de/API/api.php`
+
+> **Wichtig:** Die API akzeptiert **ausschließlich GET-Anfragen**. Andere Methoden (POST, PUT, DELETE) werden sofort mit einem `405 Method Not Allowed` blockiert.
+
+### System-Status
+Prüft die Erreichbarkeit und gibt die aktuelle API-Version sowie einen Zeitstempel zurück.
+
+| Parameter | Wert |
+| :--- | :--- |
+| `type` | `sys_status` |
+
+### Verfügbare Datentypen
+Um Daten abzurufen, musst du den Typ (`type`) und in den meisten Fällen die entsprechende Server-ID (`guild_id`) als Query-Parameter anhängen. Beispiel: `?type=stats&guild_id=123456789`.
+
+| Typ | Beschreibung |
+| :--- | :--- |
+| `list_guilds` | Listet alle aktiven Server-IDs auf, die das System nutzen (keine `guild_id` nötig). |
+| `config` | Allgemeine Server-Einstellungen und Modul-Status. |
+| `stats` | Server-Statistiken (Usercounts, Aktivität). |
+| `teams` | Aktuelle Teamlisten und Rollenbesetzungen. |
+| `punishments` / `unban` | Öffentliche Sanktionslisten und Entbannungs-Daten. |
+| `tickets` | Öffentliche Metadaten des Ticket-Systems. |
+| `autos` / `verify` | Systemdaten zu Fahrzeugen und Verifizierungen. |
+| `shifts` / `shift_configs` | Aktuelle Schichten und Dienst-Konfigurationen. |
+| `personensystem` | Daten aus dem Einwohnermeldeamt / Personensystem. |
+| `blacklist` | Globale Blacklist-Einträge des Netzwerks (keine `guild_id` nötig). |
+| `announcements`| Globale System-Nachrichten und Updates (keine `guild_id` nötig). |
+
+## Rate Limiting & Sicherheit
+
+Um die Stabilität des Systems zu gewährleisten, unterliegt jeder API-Key einem RPM-Limit (Requests Per Minute). 
+
+<AccordionGroup>
+  <Accordion title="Limits nach Client-Typ" defaultOpen>
+    - **Discord Bot:** 120 Anfragen / Minute
+    - **Web Dashboard:** 60 Anfragen / Minute
+    - **Entwickler-Key:** 30 Anfragen / Minute
+  </Accordion>
+
+  <Accordion title="Rate-Limit Header">
+    Du kannst deinen aktuellen Status über die HTTP-Response-Header auslesen:
+    
+    - `X-RateLimit-Limit`: Dein maximales Limit.
+    - `X-RateLimit-Remaining`: Verbleibende Anfragen im aktuellen Fenster.
+    - `Retry-After`: Sekunden, die du warten musst, falls du das Limit überschritten hast (HTTP 429).
+  </Accordion>
+</AccordionGroup>
+
+## Fehlerbehandlung
+
+Die API nutzt standardisierte HTTP-Statuscodes zur Fehlermeldung:
+
+<CardGroup cols={2}>
+  <Card title="400 Bad Request" icon="triangle-exclamation">
+    Fehlender oder ungültiger `type` Parameter.
+  </Card>
+
+  <Card title="401 Unauthorized" icon="lock">
+    API-Key fehlt oder ist ungültig.
+  </Card>
+
+  <Card title="404 Not Found" icon="magnifying-glass">
+    Die angeforderten Daten oder die Gilde existieren nicht.
+  </Card>
+
+  <Card title="405 Method Not Allowed" icon="ban">
+    Es wurde eine andere Methode als GET verwendet.
+  </Card>
+
+  <Card title="429 Too Many Requests" icon="gauge-high">
+    Rate-Limit überschritten. Bitte `Retry-After` Header beachten.
+  </Card>
+</CardGroup>
+
+## Integration v4.0
+
+<Note>
+  **Neu in Version 4.0:**
+  
+  - **Strikter Read-Only Schutz** — Sämtliche modifizierenden Methoden werden auf Webserver-Ebene blockiert.
+  - **Anti-Caching Mechanismen** — Neue Header (`Cache-Control: no-store...`) garantieren, dass dynamische Daten (wie Shifts oder Stats) immer in Echtzeit und nicht aus dem Browser-Cache geladen werden.
+  - **Sichere Parameter** — Eingehende Parameter werden nun strikt via Regex bereinigt, um Path-Traversal zu verhindern.
+  - **Performance Boost** — Die API nutzt nun moderne PHP 8 Match-Strukturen für ein noch schnelleres Routing der Anfragen.
+</Note>
